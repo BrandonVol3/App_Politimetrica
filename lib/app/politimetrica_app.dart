@@ -8,7 +8,7 @@ class PolitiMetricaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'PolitiMetrica Ecuador',
+      title: 'App PolitiMetrica Ecuador',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       initialRoute: AppRoutes.login,
