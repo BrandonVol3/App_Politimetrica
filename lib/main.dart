@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/semantics.dart'; // Añade esta importación
-import 'app/politimetrica_app.dart'; // Corrige el nombre del archivo
+import 'package:firebase_core/firebase_core.dart';
+import 'app/politimetrica_app.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // 👈 Esta línea va PRIMERO
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-  WidgetsFlutterBinding.ensureInitialized();
+  // Bloquear la orientación a vertical
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
-    SemanticsBinding.instance.ensureSemantics();
-    runApp(const PolitiMetricaApp()); // Asegúrate que el nombre de la clase sea correcto
-  });
+  runApp(const PolitiMetricaApp());
 }
-

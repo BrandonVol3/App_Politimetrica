@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "944245110113",
-    "project_id": "apppolitimetrica",
-    "storage_bucket": "apppolitimetrica.firebasestorage.app"
+    "project_number": "856779613218",
+    "project_id": "apppolitimetrica-8c73f",
+    "storage_bucket": "apppolitimetrica-8c73f.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:944245110113:android:44ed88b1ab7a1140378120",
+        "mobilesdk_app_id": "1:856779613218:android:39344cdb63e3463e61167b",
         "android_client_info": {
           "package_name": "com.example.app_politimetrica"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "944245110113-b601p1rk3f8kg7np083622n78oepv7q5.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBCpOhDdmBpHyWG96k8wEIUp7OLxixH4TQ"
+          "current_key": "AIzaSyACtLNKQ_VQFPxNS3XFImZEC7yKM2EIWbI"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "944245110113-b601p1rk3f8kg7np083622n78oepv7q5.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
