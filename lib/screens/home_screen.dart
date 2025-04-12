@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../app/app_routes.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -7,160 +9,177 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDarkMode = theme.brightness == Brightness.dark;
+    final isDark = theme.brightness == Brightness.dark;
+    final user = FirebaseAuth.instance.currentUser;
+    final userName = user?.displayName ?? "Usuario";
+    final userPhoto = user?.photoURL;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Políticos - Datos',
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.5,
-            )),
-        centerTitle: true,
-        actions: [
-          Tooltip(
-            message: 'Cerrar sesión',
-            child: IconButton(
-              icon: const Icon(Icons.logout_rounded),
-              onPressed: () => _confirmLogout(context),
-            ),
-          ),
-        ],
-        elevation: 2,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Panel Principal',
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: isDarkMode ? Colors.white70 : Colors.black87,
+      body: Stack(
+        children: [
+          // Fondo degradado con curva
+          Container(
+            height: 200,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF4CAF50), // Verde claro
+                  Color(0xFF388E3C), // Verde más oscuro
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(24),
               ),
             ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20,
-                childAspectRatio: 1.0,
+          ),
+
+
+          // Contenido principal
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildFeatureCard(
-                    context,
-                    icon: Icons.people_alt_rounded,
-                    title: 'Políticos',
-                    subtitle: 'Listado completo',
-                    color: const Color(0xFF2E7D32),
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.politicianList),
+                  // Perfil y mensaje
+                  Row(
+                    children: [
+                      AnimatedOpacity(
+                        opacity: 1.0,
+                        duration: const Duration(milliseconds: 600),
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                          userPhoto != null ? NetworkImage(userPhoto) : null,
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Usted accedió con su cuenta de Google',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: Colors.white70,
+                            ),
+                          ),
+                          Text(
+                            userName,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () => _confirmLogout(context),
+                        icon: const Icon(Icons.logout_rounded),
+                        tooltip: 'Cerrar sesión',
+                        color: Colors.white,
+                      ),
+                    ],
                   ),
-                  _buildFeatureCard(
-                    context,
-                    icon: Icons.map_rounded,
-                    title: 'Provincias',
-                    subtitle: 'Por ubicación',
-                    color: const Color(0xFFC62828),
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.provincesList),
+
+                  const SizedBox(height: 30),
+
+                  Text(
+                    "Explora las opciones:",
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
                   ),
-                  _buildFeatureCard(
-                    context,
-                    icon: Icons.article_rounded,
-                    title: 'Políticos Web',
-                    subtitle: 'Últimas noticias',
-                    color: const Color(0xFF1565C0),
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.wordpressNews),
-                  ),
-                  _buildFeatureCard(
-                    context,
-                    icon: Icons.analytics_rounded,
-                    title: 'Estadísticas',
-                    subtitle: 'Datos relevantes',
-                    color: const Color(0xFF6A1B9A),
-                    onTap: () {},
+
+                  const SizedBox(height: 20),
+
+                  Expanded(
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      children: [
+                        _featureCard(
+                          context,
+                          icon: Icons.people,
+                          title: 'Políticos',
+                          color: Colors.green.shade700,
+                          route: AppRoutes.politicianList,
+                        ),
+                        _featureCard(
+                          context,
+                          icon: Icons.map,
+                          title: 'Provincias',
+                          color: Colors.red.shade700,
+                          route: AppRoutes.provincesList,
+                        ),
+                        _featureCard(
+                          context,
+                          icon: Icons.article,
+                          title: 'Noticias',
+                          color: Colors.blue.shade700,
+                          route: AppRoutes.wordpressNews,
+                        ),
+                        _featureCard(
+                          context,
+                          icon: Icons.analytics,
+                          title: 'Estadísticas',
+                          color: Colors.purple.shade700,
+                          route: null,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildFeatureCard(
+  Widget _featureCard(
       BuildContext context, {
         required IconData icon,
         required String title,
-        required String subtitle,
         required Color color,
-        required VoidCallback onTap,
+        String? route,
       }) {
-    final theme = Theme.of(context);
-    final isDarkMode = theme.brightness == Brightness.dark;
-
-    return Semantics(
-      button: true,
-      label: 'Acceso a $title',
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: onTap,
-          splashFactory: InkRipple.splashFactory,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  isDarkMode ? color.withOpacity(0.7) : color.withOpacity(0.1),
-                  isDarkMode ? color.withOpacity(0.4) : color.withOpacity(0.05),
-                ],
-              ),
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      elevation: 5,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: route != null ? () => Navigator.pushNamed(context, route) : null,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                color.withOpacity(0.12),
+                color.withOpacity(0.05),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: color.withOpacity(isDarkMode ? 0.2 : 0.1),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: color.withOpacity(0.3),
-                        width: 1.5,
-                      ),
-                    ),
-                    child: Icon(icon, size: 32, color: color),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    title,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: isDarkMode ? Colors.white : Colors.black87,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    subtitle,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: isDarkMode ? Colors.white70 : Colors.black54,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 40, color: color),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.w600),
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -172,30 +191,28 @@ class HomeScreen extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Cerrar sesión'),
-        content: const Text('¿Estás seguro de que deseas salir de la aplicación?'),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        content: const Text('¿Estás seguro de que deseas cerrar sesión?'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
             child: const Text('Cancelar'),
+            onPressed: () => Navigator.pop(context, false),
           ),
           ElevatedButton(
+            child: const Text('Salir'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.redAccent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Salir', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
     );
 
     if (confirmed == true) {
+      await FirebaseAuth.instance.signOut();
+      try {
+        await GoogleSignIn().signOut();
+      } catch (_) {}
       Navigator.pushNamedAndRemoveUntil(
         context,
         AppRoutes.login,

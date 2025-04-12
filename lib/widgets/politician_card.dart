@@ -65,7 +65,7 @@ class _PoliticianCardState extends State<PoliticianCard> with SingleTickerProvid
                     children: [
                       _buildImage(),
                       const SizedBox(width: 16),
-                      Expanded(child: _buildInfo(theme)),
+                      Flexible(child: _buildInfo(theme)),
                       const SizedBox(width: 12),
                       _buildApprovalWithSemantics(),
                     ],

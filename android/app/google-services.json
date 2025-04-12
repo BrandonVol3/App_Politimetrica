@@ -12,7 +12,20 @@
           "package_name": "com.example.app_politimetrica"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "856779613218-mhi5jguhtvfln73gvrf3394a8hmq574a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.app_politimetrica",
+            "certificate_hash": "2a22c513cfaf9805fcb7aad42c52f62fd45586a9"
+          }
+        },
+        {
+          "client_id": "856779613218-jac7l786ptrgcmv95760mdks2f366vhe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyACtLNKQ_VQFPxNS3XFImZEC7yKM2EIWbI"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "856779613218-jac7l786ptrgcmv95760mdks2f366vhe.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "856779613218-inmpm36q0k37vkv9tdfq7kcbh506aq5p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.appPolitimetrica"
+              }
+            }
+          ]
         }
       }
     }

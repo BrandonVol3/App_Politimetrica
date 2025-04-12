@@ -2,6 +2,7 @@ import '../screens/login_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/politician_list_screen.dart';
 import '../screens/provinces_list_screen.dart';
+import '../screens/register_screen.dart';  // Agrega esta importación
 
 class AppRoutes {
   static const String login = '/';
@@ -16,5 +17,6 @@ class AppRoutes {
     home: (context) => const HomeScreen(),
     politicianList: (context) => const PoliticianListScreen(),
     provincesList: (context) => const ProvincesListScreen(),
+    '/register': (context) => const RegisterScreen(), // Agrega la ruta para el registro
   };
 }
