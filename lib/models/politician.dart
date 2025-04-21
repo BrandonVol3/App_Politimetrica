@@ -24,6 +24,7 @@ class Politician {
 
 class EcuadorData {
   static const List<Politician> politicians = [
+    // Asegúrate de que aquí esté el político de Carchi
     Politician(
       id: '1',
       name: 'Daniel Noboa',
@@ -158,22 +159,7 @@ class EcuadorData {
     ),
   ];
 
-
-  static List<String> get provinces {
-    return [
-      'Azuay', 'Bolívar', 'Cañar', 'Carchi', 'Chimborazo', 'Cotopaxi',
-      'El Oro', 'Esmeraldas', 'Galápagos', 'Guayas', 'Imbabura',
-      'Loja', 'Los Ríos', 'Manabí', 'Morona Santiago', 'Napo',
-      'Orellana', 'Pastaza', 'Pichincha', 'Santa Elena',
-      'Santo Domingo', 'Sucumbíos', 'Tungurahua', 'Zamora Chinchipe',
-    ];
-  }
-
   static List<Politician> getPoliticiansByProvince(String province) {
     return politicians.where((politician) => politician.province == province).toList();
-  }
-
-  static List<Politician> getPoliticiansByParty(String party) {
-    return politicians.where((politician) => politician.party == party).toList();
   }
 }
